@@ -1,0 +1,36 @@
+#!python
+import sys
+import argparse
+import csv
+if __name__=="__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("file", help="Input file to view.",
+                        type=str)
+    parser.add_argument("-n","--lnum", help="the number of lines to view.",type=int, default=5)
+    parser.add_argument("-d","--delim", help="The delimitter or separator of the input file.",type=str, default="\t")
+    parser.add_argument("-p","--partition", help="The delimitter or separator of the output.",type=str, default="::")
+    args = parser.parse_args()
+    
+    
+    pnum=args.lnum
+    sep=args.delim
+    with open(args.file) as fin:
+        i=0
+        toprint=[]
+        fin=csv.reader(fin, delimiter=sep)
+        
+        for line in fin:
+            if i==0:
+                cnum=len(line)
+            toprint.append(line)
+            #print(line)
+            if i==pnum:
+                break
+            i+=1
+    
+    for i in range(cnum):
+    
+        words=""
+        for j in range(pnum):
+            words+=args.partition+toprint[j][i]
+        print(str(i)+words)
